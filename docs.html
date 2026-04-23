@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation – AccessVeil Pro</title>
+    <meta name="description" content="Complete documentation for AccessVeil Pro WordPress accessibility plugin. Installation, configuration, and troubleshooting.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 40px; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #fafbff;
+            color: #1e293b;
+            line-height: 1.7;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        
+        /* Navigation (same style as landing) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 1px solid #e2e8f7;
+            margin-bottom: 20px;
+        }
+        .logo { display: flex; align-items: center; gap: 14px; }
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #1a56db, #3b82f6);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-text { font-weight: 800; font-size: 24px; }
+        .logo-text span { color: #1a56db; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-link {
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #475569;
+        }
+        .nav-link:hover, .nav-link.active { background: #1a56db; color: white; }
+        .btn {
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            background: #1a56db;
+            color: white;
+            margin-left: 8px;
+        }
+
+        /* Docs Layout */
+        .docs-wrapper {
+            display: flex;
+            gap: 48px;
+            margin: 40px 0 80px;
+        }
+        
+        /* Sidebar */
+        .docs-sidebar {
+            width: 300px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 32px;
+            align-self: flex-start;
+            background: white;
+            border-radius: 28px;
+            padding: 32px 20px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .docs-sidebar h4 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin: 24px 0 12px 12px;
+        }
+        .docs-sidebar h4:first-of-type { margin-top: 0; }
+        .docs-nav {
+            list-style: none;
+        }
+        .docs-nav li { margin-bottom: 4px; }
+        .docs-nav a {
+            display: block;
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: #334155;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.15s;
+            font-size: 15px;
+        }
+        .docs-nav a:hover, .docs-nav a.active {
+            background: #eff6ff;
+            color: #1a56db;
+        }
+        .docs-nav a i {
+            width: 20px;
+            margin-right: 10px;
+            font-size: 14px;
+            color: #1a56db;
+        }
+
+        /* Content */
+        .docs-content {
+            flex: 1;
+            background: white;
+            border-radius: 32px;
+            padding: 48px 56px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+            min-width: 0;
+        }
+        .docs-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .docs-content h2 {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 48px 0 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #eef2f6;
+        }
+        .docs-content h2:first-of-type { margin-top: 8px; }
+        .docs-content h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 36px 0 16px;
+        }
+        .docs-content p {
+            color: #334155;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .docs-content ul, .docs-content ol {
+            margin: 0 0 24px 28px;
+            color: #334155;
+        }
+        .docs-content li { margin-bottom: 10px; }
+        .docs-content li strong { color: #1e293b; }
+        .docs-content code {
+            background: #f1f5f9;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #1a56db;
+            font-weight: 500;
+            border: 1px solid #e2e8f7;
+        }
+        .docs-content pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 22px 28px;
+            border-radius: 20px;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 28px 0;
+            border: 1px solid #334155;
+        }
+        .note {
+            background: #fffbeb;
+            border-left: 6px solid #f59e0b;
+            padding: 22px 28px;
+            border-radius: 16px;
+            margin: 32px 0;
+        }
+        .note i { color: #f59e0b; margin-right: 8px; }
+        .tip {
+            background: #eff6ff;
+            border-left: 6px solid #1a56db;
+            padding: 22px 28px;
+            border-radius: 16px;
+            margin: 32px 0;
+        }
+        .tip i { color: #1a56db; margin-right: 8px; }
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            margin-left: 0 !important;
+        }
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 24px;
+            padding-left: 48px;
+            position: relative;
+        }
+        .step-list li::before {
+            content: counter(step-counter);
+            background: #1a56db;
+            color: white;
+            font-weight: 700;
+            width: 32px;
+            height: 32px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .module-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 28px 0;
+        }
+        .module-table th {
+            text-align: left;
+            padding: 14px 16px;
+            background: #f8fafc;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f7;
+        }
+        .module-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .badge-sm {
+            background: #e0e7ff;
+            color: #1a56db;
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .docs-wrapper { flex-direction: column; }
+            .docs-sidebar { width: 100%; position: static; max-height: none; }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 0 20px; }
+            .docs-content { padding: 32px 24px; }
+            .navbar { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-universal-access" style="color: white; font-size: 20px;"></i>
+                </div>
+                <div class="logo-text">AccessVeil <span>Pro</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="docs.html" class="nav-link active">Documentation</a>
+                <a href="#" class="btn"><i class="fas fa-shopping-cart"></i> Buy Pro</a>
+            </div>
+        </nav>
+
+        <!-- Docs Layout -->
+        <div class="docs-wrapper">
+            <!-- Sidebar -->
+            <aside class="docs-sidebar">
+                <h4><i class="fas fa-rocket" style="margin-right: 6px;"></i> Getting Started</h4>
+                <ul class="docs-nav">
+                    <li><a href="#installation"><i class="fas fa-download"></i>Installation</a></li>
+                    <li><a href="#license"><i class="fas fa-key"></i>License Activation</a></li>
+                    <li><a href="#quick-start"><i class="fas fa-play"></i>Quick Start</a></li>
+                </ul>
+                <h4><i class="fas fa-sliders-h"></i> Configuration</h4>
+                <ul class="docs-nav">
+                    <li><a href="#global-settings"><i class="fas fa-globe"></i>Global Settings</a></li>
+                    <li><a href="#modules"><i class="fas fa-cubes"></i>Modules Overview</a></li>
+                    <li><a href="#appearance"><i class="fas fa-palette"></i>Appearance</a></li>
+                    <li><a href="#custom-css"><i class="fas fa-code"></i>Custom CSS</a></li>
+                </ul>
+                <h4><i class="fas fa-tools"></i> Advanced</h4>
+                <ul class="docs-nav">
+                    <li><a href="#hooks"><i class="fas fa-code-branch"></i>Hooks & Filters</a></li>
+                    <li><a href="#shortcode"><i class="fas fa-brackets-curly"></i>Shortcode</a></li>
+                    <li><a href="#translation"><i class="fas fa-language"></i>Translation</a></li>
+                </ul>
+                <h4><i class="fas fa-life-ring"></i> Support</h4>
+                <ul class="docs-nav">
+                    <li><a href="#troubleshooting"><i class="fas fa-bug"></i>Troubleshooting</a></li>
+                    <li><a href="#faq"><i class="fas fa-question-circle"></i>FAQ</a></li>
+                    <li><a href="#wcag-checklist"><i class="fas fa-clipboard-check"></i>WCAG Checklist</a></li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="docs-content">
+                <h1>📘 Documentation</h1>
+                <p style="font-size: 18px; color: #64748b;">Everything you need to install, configure, and master AccessVeil Pro.</p>
+                
+                <!-- Installation -->
+                <h2 id="installation">🚀 Installation</h2>
+                <ol class="step-list">
+                    <li><strong>Download the plugin</strong> – Get <code>accessveil-pro.zip</code> from your Envato purchase downloads.</li>
+                    <li><strong>Upload to WordPress</strong> – Go to <code>Plugins → Add New → Upload Plugin</code>. Choose the zip file and click <strong>Install Now</strong>.</li>
+                    <li><strong>Activate</strong> – Click <strong>Activate Plugin</strong>. You'll see "AccessVeil Pro" in your admin sidebar.</li>
+                </ol>
+                <div class="tip"><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> After activation, the plugin creates default settings automatically. You can start using the widget immediately after license activation.</div>
+
+                <!-- License -->
+                <h2 id="license">🔑 License Activation</h2>
+                <p>AccessVeil Pro requires a valid license to unlock all 13 modules. Navigate to <strong>AccessVeil Pro → License</strong> in your WordPress admin.</p>
+                <ul>
+                    <li>Enter your Envato purchase code (format: <code>AVPRO-XXXXX-XXXXX-XXXXX-XXXXX</code>)</li>
+                    <li>Click <strong>Activate License</strong></li>
+                </ul>
+                <div class="note"><i class="fas fa-flask"></i> <strong>Get the purchase code:</strong>to Use the <code>AccessVeil Pro</code> for your site.</div>
+
+                <h2 id="quick-start">⚡ Quick Start</h2>
+                <p>Once license is active:</p>
+                <ul>
+                    <li>Visit <strong>AccessVeil Pro → Modules</strong> – toggle which accessibility tools you want to offer.</li>
+                    <li>Ensure <strong>"Enable Widget"</strong> is checked.</li>
+                    <li>Visit your site frontend – you'll see the accessibility button.</li>
+                </ul>
+
+                <h2 id="global-settings">⚙️ Global Settings</h2>
+                <p>Located under the <strong>Modules</strong> tab (scroll to bottom):</p>
+                <table class="module-table">
+                    <tr><th>Setting</th><th>Description</th></tr>
+                    <tr><td><code>Enable Widget</code></td><td>Master on/off switch for the frontend widget.</td></tr>
+                    <tr><td><code>Hide on Mobile</code></td><td>Adds CSS to hide the widget on screens smaller than 768px.</td></tr>
+                </table>
+
+                <h2 id="modules">🧩 Modules Overview</h2>
+                <p>AccessVeil Pro comes with 13 powerful modules. Each can be toggled independently.</p>
+                <table class="module-table">
+                    <tr><th>Module</th><th>Type</th><th>Description</th></tr>
+                    <tr><td>Font Resizer</td><td><span class="badge-sm">range</span></td><td>Incrementally change base font size.</td></tr>
+                    <tr><td>Contrast Mode</td><td><span class="badge-sm">select</span></td><td>High contrast, dark, invert schemes.</td></tr>
+                    <tr><td>Dyslexia Font</td><td><span class="badge-sm">toggle</span></td><td>Apply OpenDyslexic typeface.</td></tr>
+                    <tr><td>Big Cursor</td><td><span class="badge-sm">toggle</span></td><td>Enlarged custom cursor.</td></tr>
+                    <tr><td>Reading Line</td><td><span class="badge-sm">toggle</span></td><td>Horizontal guide line.</td></tr>
+                    <tr><td>Highlight Links</td><td><span class="badge-sm">toggle</span></td><td>Outline all links.</td></tr>
+                    <tr><td>Stop Animations</td><td><span class="badge-sm">toggle</span></td><td>Freeze GIFs/CSS animations.</td></tr>
+                    <tr><td>Screen Reader</td><td><span class="badge-sm">toggle</span></td><td>Text-to-speech via Web Speech API.</td></tr>
+                    <tr><td>Focus Mode</td><td><span class="badge-sm">toggle</span></td><td>Dim non-hovered content.</td></tr>
+                    <tr><td>Reading Mask</td><td><span class="badge-sm">toggle</span></td><td>Mask to isolate paragraph.</td></tr>
+                    <tr><td>Color Blind Mode</td><td><span class="badge-sm">select</span></td><td>Protanopia, Deuteranopia, Tritanopia filters.</td></tr>
+                    <tr><td>Text Spacing</td><td><span class="badge-sm">range</span></td><td>Letter/word spacing, line height.</td></tr>
+                    <tr><td>Tooltips</td><td><span class="badge-sm">toggle</span></td><td>Enhanced tooltip display.</td></tr>
+                </table>
+
+                <h2 id="appearance">🎨 Appearance</h2>
+                <p>Customize the widget look under <strong>AccessVeil Pro → Appearance</strong>.</p>
+                <ul>
+                    <li><strong>Position:</strong> bottom-right (default), bottom-left, top-right, top-left.</li>
+                    <li><strong>Brand Color:</strong> Hex color picker – affects button, toggles, highlights.</li>
+                    <li><strong>Widget Size:</strong> small, medium, large.</li>
+                    <li><strong>Custom CSS:</strong> Add your own overrides (see below).</li>
+                </ul>
+
+                <h2 id="custom-css">✏️ Custom CSS</h2>
+                <p>Use the textarea in Appearance to inject custom styles. All widget elements are prefixed with <code>.avp-</code> or <code>#avp-widget</code>.</p>
+                <pre>/* Example: make trigger larger */
+#avp-widget .avp-trigger {
+    width: 80px !important;
+    height: 80px !important;
+}</pre>
+
+                <h2 id="hooks">⚡ Hooks & Filters (Developers)</h2>
+                <p>Extend AccessVeil Pro programmatically:</p>
+                <pre>// Filter settings before render
+add_filter('avp_settings', function($settings) {
+    $settings['widget_color'] = '#dc2626';
+    return $settings;
+});
+
+// Filter module list
+add_filter('avp_modules', function($modules) {
+    // modify modules array
+    return $modules;
+});</pre>
+
+                <h2 id="shortcode">📎 Shortcode</h2>
+                <p>You can manually place the widget trigger using shortcode <code>[avp_trigger]</code>. Useful for custom header placements.</p>
+
+                <h2 id="translation">🌐 Translation</h2>
+                <p>AccessVeil Pro is translation-ready. Use <code>.po/.mo</code> files in <code>/languages</code> folder. Text domain: <code>accessveil-pro</code>.</p>
+
+                <h2 id="troubleshooting">🛠️ Troubleshooting</h2>
+                <ul>
+                    <li><strong>Widget not appearing?</strong> Verify license is active and "Enable Widget" is checked.</li>
+                    <li><strong>Modules not working?</strong> Clear any caching plugins. Check browser console for JS errors.</li>
+                    <li><strong>Conflict with theme?</strong> Use Custom CSS to adjust z-index or positioning.</li>
+                    <li><strong>Screen reader not speaking?</strong> Ensure site uses HTTPS (Web Speech API requirement).</li>
+                </ul>
+
+                <h2 id="faq">❓ FAQ</h2>
+                <p><strong>Q: Can I use this on multiple sites?</strong><br>A: One regular license covers one WordPress installation (Envato terms).</p>
+                <p><strong>Q: Does it slow down my site?</strong><br>A: No. Assets are minified and only loaded when widget is enabled. Zero impact on Core Web Vitals.</p>
+                <p><strong>Q: Is it GDPR compliant?</strong><br>A: Yes, no personal data is stored. Preferences are saved in <code>sessionStorage</code>.</p>
+
+                <h2 id="wcag-checklist">✅ WCAG 2.1 Checklist</h2>
+                <p>AccessVeil Pro assists with these success criteria (partial list):</p>
+                <ul>
+                    <li><strong>1.4.3 Contrast (Minimum)</strong> – Contrast modes help meet ratio.</li>
+                    <li><strong>1.4.4 Resize Text</strong> – Font resizer up to 200%.</li>
+                    <li><strong>1.4.10 Reflow</strong> – Text spacing module aligns with requirement.</li>
+                    <li><strong>2.2.2 Pause, Stop, Hide</strong> – Stop animations module.</li>
+                    <li><strong>2.3.3 Animation from Interactions</strong> – Motion reduction via stop animations.</li>
+                    <li><strong>2.4.7 Focus Visible</strong> – Focus mode and highlight links.</li>
+                </ul>
+                <div class="tip"><i class="fas fa-gem"></i> For a complete WCAG audit, combine AccessVeil Pro with manual testing and semantic HTML.</div>
+                
+                <p style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #eef2f6; color: #64748b;">
+                    <i class="fas fa-heart" style="color: #dc2626;"></i> Built with love by <strong>Dipto Design</strong>. Need help? <a href="#" style="color: #1a56db;">Open a support ticket</a>.
+                </p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
