@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccessVeil Pro – WordPress Accessibility Plugin | WCAG 2.1 / ADA</title>
+    <meta name="description" content="The most complete web accessibility solution for WordPress. 13 powerful modules to meet WCAG 2.1 / ADA / Section 508 standards. Built by Dipto Design.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #fafbff 0%, #ffffff 100%);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #1a56db;
+            color: white;
+            box-shadow: 0 12px 24px -8px rgba(26,86,219,0.32);
+        }
+        .btn-primary:hover {
+            background: #1345b5;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 32px -10px rgba(26,86,219,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1a56db;
+            color: #1a56db;
+        }
+        .btn-outline:hover {
+            background: #1a56db;
+            color: white;
+            transform: translateY(-3px);
+        }
+        .btn-large {
+            padding: 16px 36px;
+            font-size: 18px;
+        }
+
+        /* Typography */
+        h1 { font-size: 64px; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 24px; }
+        h2 { font-size: 44px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 20px; }
+        h3 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+        .gradient-text {
+            background: linear-gradient(135deg, #1a56db 0%, #6d28d9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(26,86,219,0.08);
+            color: #1a56db;
+            margin-bottom: 20px;
+            border: 1px solid rgba(26,86,219,0.15);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1a56db, #3b82f6);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(26,86,219,0.25);
+        }
+        .logo-text { font-weight: 800; font-size: 26px; color: #1e293b; }
+        .logo-text span { color: #1a56db; }
+        .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav-link {
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active { background: #1a56db; color: white; }
+
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 70px;
+            align-items: center;
+            padding: 40px 0 80px;
+        }
+        .hero-content p {
+            font-size: 20px;
+            color: #475569;
+            max-width: 560px;
+            margin-bottom: 36px;
+        }
+        .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+        .stats { display: flex; gap: 48px; flex-wrap: wrap; border-top: 1px solid #e2e8f7; padding-top: 36px; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-number { font-size: 48px; font-weight: 800; color: #1a56db; line-height: 1.1; }
+        .stat-label { color: #64748b; font-weight: 600; font-size: 15px; }
+        
+        .hero-visual {
+            background: white;
+            border-radius: 36px;
+            padding: 28px;
+            box-shadow: 0 40px 60px -20px rgba(26,86,219,0.2);
+            border: 1px solid rgba(26,86,219,0.08);
+        }
+        .widget-preview {
+            background: #f8faff;
+            border-radius: 24px;
+            padding: 24px;
+        }
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f7;
+        }
+        .widget-avatar {
+            width: 52px;
+            height: 52px;
+            background: #1a56db;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        .module-mock-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .mock-card {
+            background: white;
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+        }
+        .mock-card i { font-size: 22px; color: #1a56db; margin-bottom: 6px; }
+        .mock-card span { font-size: 11px; font-weight: 600; color: #64748b; display: block; }
+
+        /* Trusted by */
+        .trusted-section { padding: 40px 0; text-align: center; }
+        .trusted-text { color: #94a3b8; font-weight: 600; letter-spacing: 1px; margin-bottom: 24px; }
+        .trusted-logos { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; opacity: 0.6; }
+
+        /* Features Grid */
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        .modules-showcase { padding: 80px 0; }
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+        .module-card {
+            background: white;
+            padding: 32px 28px;
+            border-radius: 28px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+            transition: all 0.3s ease;
+        }
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 28px 40px -12px rgba(26,86,219,0.18);
+            border-color: #bfdbfe;
+        }
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #eff6ff, #ffffff);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+            color: #1a56db;
+            border: 1px solid #bfdbfe;
+        }
+        .module-card h4 { font-size: 22px; margin-bottom: 10px; }
+        .module-card p { color: #64748b; margin-bottom: 18px; }
+        .module-tag {
+            font-size: 12px;
+            background: #f1f5f9;
+            padding: 5px 14px;
+            border-radius: 40px;
+            color: #475569;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        /* WCAG Section */
+        .wcag-showcase {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 60px;
+            padding: 72px 64px;
+            margin: 80px 0;
+            color: white;
+        }
+        .wcag-showcase h2 { color: white; }
+        .wcag-showcase .badge {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+        }
+        .wcag-bubbles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 36px;
+        }
+        .wcag-bubble {
+            background: rgba(255,255,255,0.08);
+            padding: 12px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+        }
+        .wcag-bubble strong { color: #60a5fa; margin-right: 8px; }
+
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(135deg, #1a56db 0%, #6d28d9 100%);
+            border-radius: 48px;
+            padding: 72px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin: 80px 0;
+            box-shadow: 0 30px 50px -12px rgba(26,86,219,0.35);
+        }
+        .cta-banner h2, .cta-banner p { color: white; }
+        .cta-banner .btn-primary {
+            background: white;
+            color: #1a56db;
+            box-shadow: 0 16px 32px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #e2e8f7;
+            padding: 56px 0 32px;
+            margin-top: 60px;
+        }
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-links { display: flex; gap: 36px; }
+        .footer-links a { color: #475569; text-decoration: none; font-weight: 600; }
+        .footer-links a:hover { color: #1a56db; }
+        .copyright { color: #94a3b8; font-weight: 500; }
+
+        /* Mobile */
+        @media (max-width: 968px) {
+            h1 { font-size: 48px; }
+            h2 { font-size: 36px; }
+            .hero { grid-template-columns: 1fr; gap: 40px; }
+            .wcag-showcase, .cta-banner { padding: 48px 32px; }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 0 20px; }
+            .navbar { flex-direction: column; align-items: flex-start; }
+            .stats { gap: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-universal-access" style="color: white; font-size: 24px;"></i>
+                </div>
+                <div class="logo-text">AccessVeil <span>Pro</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#wcag" class="nav-link">WCAG</a>
+                <a href="docs.html" class="nav-link">Documentation</a>
+                <a href="#" class="btn btn-primary" style="margin-left: 8px;"><i class="fas fa-shopping-cart"></i> Buy on Envato</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <span class="badge"><i class="fas fa-check-circle" style="color: #10b981;"></i> WCAG 2.1 · ADA · Section 508</span>
+                <h1>Make WordPress <br><span class="gradient-text">accessible</span> to everyone</h1>
+                <p>The most complete web accessibility solution for WordPress. 13 powerful modules, zero bloat, beautiful design. Built for compliance, designed for humans.</p>
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary btn-large"><i class="fas fa-crown"></i> Get AccessVeil Pro</a>
+                    <a href="docs.html" class="btn btn-outline btn-large"><i class="fas fa-book-open"></i> Documentation</a>
+                </div>
+                <div class="stats">
+                    <div class="stat-item"><span class="stat-number">13</span> <span class="stat-label">Powerful Modules</span></div>
+                    <div class="stat-item"><span class="stat-number">WCAG 2.1</span> <span class="stat-label">Level AA Ready</span></div>
+                    <div class="stat-item"><span class="stat-number">∞</span> <span class="stat-label">Customizable</span></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="widget-preview">
+                    <div class="widget-header">
+                        <div class="widget-avatar"><i class="fas fa-universal-access"></i></div>
+                        <div><strong style="font-size: 18px;">Accessibility Panel</strong><br><span style="font-size: 13px; color: #64748b;">v1.0.0 · Ready</span></div>
+                    </div>
+                    <div class="module-mock-grid">
+                        <div class="mock-card"><i class="fas fa-text-height"></i><span>Font Size</span></div>
+                        <div class="mock-card"><i class="fas fa-adjust"></i><span>Contrast</span></div>
+                        <div class="mock-card"><i class="fas fa-book-open"></i><span>Dyslexia</span></div>
+                        <div class="mock-card"><i class="fas fa-mouse-pointer"></i><span>Cursor</span></div>
+                        <div class="mock-card"><i class="fas fa-highlighter"></i><span>Links</span></div>
+                        <div class="mock-card"><i class="fas fa-pause"></i><span>Animations</span></div>
+                        <div class="mock-card"><i class="fas fa-ear-listen"></i><span>Reader</span></div>
+                        <div class="mock-card"><i class="fas fa-eye"></i><span>Focus</span></div>
+                    </div>
+                    <div style="background: #e0e7ff; padding: 10px; border-radius: 40px; text-align: center; font-size: 13px; font-weight: 600; color: #1a56db;">
+                        <i class="fas fa-circle" style="font-size: 8px; color: #10b981; margin-right: 6px;"></i> 13 modules active · Fully configurable
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted by (decorative) -->
+        <div class="trusted-section">
+            <div class="trusted-text">TRUSTED BY ACCESSIBILITY-FIRST WEBSITES</div>
+            <div class="trusted-logos">
+                <span style="font-weight: 700; color: #64748b;">🏆 WCAG COMPLIANT</span>
+                <span style="font-weight: 700; color: #64748b;">♿ ADA READY</span>
+                <span style="font-weight: 700; color: #64748b;">📱 RESPONSIVE</span>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <section id="features" class="modules-showcase">
+            <div class="section-header">
+                <span class="badge"><i class="fas fa-cubes"></i> Complete Toolkit</span>
+                <h2>13 Accessibility Modules <span class="gradient-text">in One</span></h2>
+                <p style="font-size: 18px; color: #64748b;">Everything you need to meet compliance and delight every visitor.</p>
+            </div>
+            <div class="modules-grid">
+                <div class="module-card"><div class="module-icon"><i class="fas fa-text-height"></i></div><h4>Font Resizer</h4><p>Increase or decrease font size site-wide with smart incremental scaling.</p><span class="module-tag">range</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-adjust"></i></div><h4>Contrast Mode</h4><p>High contrast, dark, light, and inverted color schemes.</p><span class="module-tag">select</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-font"></i></div><h4>Dyslexia Font</h4><p>OpenDyslexic typeface for improved readability.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-mouse-pointer"></i></div><h4>Big Cursor</h4><p>Enlarged custom cursor for better visibility.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-grip-lines"></i></div><h4>Reading Line</h4><p>Horizontal guide line that follows the cursor.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-highlighter"></i></div><h4>Highlight Links</h4><p>Visually outline every clickable link on the page.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-pause-circle"></i></div><h4>Stop Animations</h4><p>Pause GIFs and CSS animations for motion sensitivity.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-assistive-listening-systems"></i></div><h4>Screen Reader</h4><p>Read aloud hovered text using Web Speech API.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-vector-square"></i></div><h4>Focus Mode</h4><p>Dim surrounding content to reduce distractions.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-mask"></i></div><h4>Reading Mask</h4><p>Isolate one paragraph at a time for focused reading.</p><span class="module-tag">toggle</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-eye-dropper"></i></div><h4>Color Blind Mode</h4><p>Filters for Protanopia, Deuteranopia, and Tritanopia.</p><span class="module-tag">select</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-text-width"></i></div><h4>Text Spacing</h4><p>Adjust letter spacing, word spacing, and line height.</p><span class="module-tag">range</span></div>
+                <div class="module-card"><div class="module-icon"><i class="fas fa-comment-dots"></i></div><h4>Tooltips</h4><p>Enhanced tooltips for images and interactive elements.</p><span class="module-tag">toggle</span></div>
+            </div>
+        </section>
+
+        <!-- WCAG Section -->
+        <section id="wcag" class="wcag-showcase">
+            <span class="badge"><i class="fas fa-shield-alt"></i> Compliance Ready</span>
+            <h2>WCAG 2.1 Level AA <br>Coverage</h2>
+            <p style="font-size: 18px; opacity: 0.9; max-width: 600px;">AccessVeil Pro helps you meet critical success criteria out of the box.</p>
+            <div class="wcag-bubbles">
+                <div class="wcag-bubble"><strong>1.4.3</strong> Contrast (Minimum)</div>
+                <div class="wcag-bubble"><strong>1.4.4</strong> Resize Text</div>
+                <div class="wcag-bubble"><strong>1.4.8</strong> Visual Presentation</div>
+                <div class="wcag-bubble"><strong>1.4.10</strong> Reflow</div>
+                <div class="wcag-bubble"><strong>1.4.12</strong> Text Spacing</div>
+                <div class="wcag-bubble"><strong>2.1.1</strong> Keyboard</div>
+                <div class="wcag-bubble"><strong>2.2.2</strong> Pause, Stop, Hide</div>
+                <div class="wcag-bubble"><strong>2.3.3</strong> Animation from Interactions</div>
+                <div class="wcag-bubble"><strong>2.4.3</strong> Focus Order</div>
+                <div class="wcag-bubble"><strong>3.1.5</strong> Reading Level</div>
+                <div class="wcag-bubble"><strong>3.2.3</strong> Consistent Navigation</div>
+                <div class="wcag-bubble"><strong>3.3.2</strong> Labels or Instructions</div>
+            </div>
+        </section>
+
+        <!-- CTA Banner -->
+        <section class="cta-banner">
+            <div>
+                <h2 style="margin-bottom: 12px;">Ready to make your site accessible?</h2>
+                <p style="font-size: 18px; opacity: 0.95;">One license · Lifetime updates · Premium support</p>
+            </div>
+            <a href="#" class="btn btn-primary btn-large"><i class="fab fa-envato"></i> Purchase on Envato – $39</a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 36px; height: 36px; background: #1a56db; border-radius: 10px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-universal-access" style="color: white; font-size: 18px;"></i></div>
+                    <span style="font-weight: 700;">AccessVeil Pro by <a href="#" style="color:#1a56db; text-decoration:none;">Dipto Design</a></span>
+                </div>
+                <div class="footer-links">
+                    <a href="docs.html">Documentation</a>
+                    <a href="#">Support</a>
+                    <a href="https://codecanyon.net/user/diptodesignstock">Envato Profile</a>
+                    <a href="#">Changelog</a>
+                </div>
+                <div class="copyright">© 2026 Dipto Design · All rights reserved</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
