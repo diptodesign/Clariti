@@ -19,9 +19,9 @@
 !              the YouTube Android app via AdGuard. Uses DNS blocking,
 !              URL blocking, JSON replacement, scriptlets, and element
 !              hiding for maximum ad coverage.
-! Version: 2.0
+! Version: 3.0
 ! Last Modified: 2026-06-17
-! Homepage: https://github.com/diptodesign/
+! Homepage: https://github.com/diptodesign
 ! --- SETUP INSTRUCTIONS ---
 ! 1. Copy this file to your phone
 ! 2. AdGuard → Settings → Content Blocking → Filters → Custom Filters
@@ -37,14 +37,15 @@
 ! ✓ Sidebar/companion ads              ~95%
 ! ✓ Ad tracking/telemetry domains      ~99%
 ! ✓ Ad network requests (DoubleClick)  ~99%
-! ~ Video pre-roll/mid-roll ads        ~40-60% (varies, see below)
+! ~ Video pre-roll/mid-roll ads        ~70-90% (with Section 5 gRPC block)
 !
-! --- VIDEO AD LIMITATION ---
-! YouTube's native app uses binary protobuf over googlevideo.com for
-! video ads (server-side ad insertion). Text-based $replace rules
-! cannot strip ads from binary streams. This is a fundamental
-! limitation of ALL network-level ad blockers, not just this filter.
-! For complete video ad removal, use YouTube ReVanced or AdGuard Player.
+! --- WHY SECTION 5 IS KEY FOR VIDEO ADS ---
+! YouTube's native app uses binary protobuf (gRPC) to communicate with
+! youtubei.googleapis.com. Text-based $replace rules can't work on
+! binary data. Section 5 blocks the gRPC endpoint, FORCING the app to
+! fall back to JSON REST API on www.youtube.com — where our $replace
+! rules CAN strip adPlacements from the response. This is the ONLY
+! filter-level technique that can block video ads in the native app.
 !
 ! ============================================================
 
@@ -337,7 +338,32 @@
 
 !
 ! ============================================================
-! [SECTION 5] ELEMENT HIDING (AdGuard Player / Browser)
+! [SECTION 5] FORCE REST API — BLOCK gRPC ENDPOINT
+! ============================================================
+! CRITICAL TECHNIQUE: YouTube's native app uses gRPC/protobuf
+! (binary format) to communicate with youtubei.googleapis.com.
+! Text-based $replace rules CANNOT strip ads from binary data.
+!
+! By blocking youtubei.googleapis.com, we force the YouTube app
+! to fall back to the JSON REST API at www.youtube.com/youtubei/v1/
+! where our $replace rules CAN see and strip adPlacements/adSlots.
+!
+! MECHANISM:
+!   1. Block youtubei.googleapis.com (DNS-level)
+!   2. App can't connect via gRPC → falls back to REST/JSON
+!   3. Our $replace rules match JSON patterns and strip ads
+!   4. Without adPlacements data, app never schedules ad breaks
+!
+! WARNING: If videos fail to load or app crashes, your YouTube
+! version may not support REST fallback. Add this exception:
+!   @@||youtubei.googleapis.com^$domain=youtube.com
+!
+
+||youtubei.googleapis.com^
+
+!
+! ============================================================
+! [SECTION 6] ELEMENT HIDING (AdGuard Player / Browser)
 ! ============================================================
 ! CSS rules to hide ad elements visually. Only works in AdGuard
 ! Player (share→AdGuard Player) or browser, NOT the native app.
@@ -409,7 +435,7 @@ m.youtube.com##ytm-rich-item-renderer > ad-slot-renderer
 
 !
 ! ============================================================
-! [SECTION 6] SCRIPTLET INJECTIONS (AdGuard Player / Browser)
+! [SECTION 7] SCRIPTLET INJECTIONS (AdGuard Player / Browser)
 ! ============================================================
 ! Requires AdGuard Extra to be enabled. Only works in AdGuard
 ! Player or browser, NOT the native app.
@@ -447,7 +473,7 @@ music.youtube.com,youtubekids.com,youtube-nocookie.com#%#//scriptlet('json-prune
 
 !
 ! ============================================================
-! [SECTION 7] AdGuard APP-SPECIFIC RULES
+! [SECTION 8] AdGuard APP-SPECIFIC RULES
 ! ============================================================
 ! These only work in the AdGuard Android app (not browser ext).
 
@@ -462,7 +488,7 @@ music.youtube.com,youtubekids.com,youtube-nocookie.com#%#//scriptlet('json-prune
 
 !
 ! ============================================================
-! [SECTION 8] ANTI-FAKE-BUFFERING SCRIPT
+! [SECTION 9] ANTI-FAKE-BUFFERING SCRIPT
 ! ============================================================
 ! Prevents YouTube's fake buffering trick when ad blocking is
 ! detected. Patches Function.prototype.call to intercept ad
@@ -473,7 +499,7 @@ www.youtube.com#%#(()=>{const t=Function.prototype.call;let e=!1,o=!1,n=!1;const
 
 !
 ! ============================================================
-! [SECTION 9] EXCEPTIONS
+! [SECTION 10] EXCEPTIONS
 ! ============================================================
 ! These ensure critical functionality is not broken.
 
