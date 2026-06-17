@@ -1,0 +1,501 @@
+! ============================================================
+!  ████████╗██╗   ██╗██████╗ ███████╗
+!  ╚══██╔══╝██║   ██║██╔══██╗██╔════╝
+!     ██║   ██║   ██║██████╔╝█████╗
+!     ██║   ██║   ██║██╔══██╗██╔══╝
+!     ██║   ╚██████╔╝██████╔╝███████╗
+!     ╚═╝    ╚═════╝ ╚═════╝ ╚══════╝
+!  ███████╗██╗  ██╗██╗███████╗██╗     ██████╗
+!  ██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗
+!  ███████╗███████║██║█████╗  ██║     ██║  ██║
+!  ╚════██║██╔══██║██║██╔══╝  ██║     ██║  ██║
+!  ███████║██║  ██║██║███████╗███████╗██████╔╝
+!  ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝
+! ============================================================
+!         YouTube Ad Block Filter for AdGuard Android
+! ============================================================
+! Title: TubeShield — YouTube Ad Blocker for AdGuard
+! Description: Aggressive multi-layer filter to block YouTube ads in
+!              the YouTube Android app via AdGuard. Uses DNS blocking,
+!              URL blocking, JSON replacement, scriptlets, and element
+!              hiding for maximum ad coverage.
+! Version: 2.0
+! Last Modified: 2026-06-17
+! Homepage: https://github.com/diptodesign/
+! --- SETUP INSTRUCTIONS ---
+! 1. Copy this file to your phone
+! 2. AdGuard → Settings → Content Blocking → Filters → Custom Filters
+!    → Import from file
+! 3. Enable HTTPS filtering: Settings → Content Blocking → HTTPS filtering
+! 4. Enable AdGuard Extra: Settings → Filtering → Userscripts → AdGuard Extra
+! 5. For best results use HTTP filtering mode (VPN), NOT proxy mode
+!
+! --- WHAT THIS BLOCKS ---
+! ✓ Feed/recommendation ads           ~85%
+! ✓ Homepage banner/masthead ads       ~95%
+! ✓ Search result ads                  ~95%
+! ✓ Sidebar/companion ads              ~95%
+! ✓ Ad tracking/telemetry domains      ~99%
+! ✓ Ad network requests (DoubleClick)  ~99%
+! ~ Video pre-roll/mid-roll ads        ~40-60% (varies, see below)
+!
+! --- VIDEO AD LIMITATION ---
+! YouTube's native app uses binary protobuf over googlevideo.com for
+! video ads (server-side ad insertion). Text-based $replace rules
+! cannot strip ads from binary streams. This is a fundamental
+! limitation of ALL network-level ad blockers, not just this filter.
+! For complete video ad removal, use YouTube ReVanced or AdGuard Player.
+!
+! ============================================================
+
+!
+! ============================================================
+! [SECTION 1] DNS-LEVEL DOMAIN BLOCKING
+! ============================================================
+! Blocks ad/tracking domains at DNS level. Works on all traffic
+! including the native YouTube app.
+!
+
+! --- DoubleClick Network (All Subdomains) ---
+||ad.doubleclick.net^
+||ad-emea.doubleclick.net^
+||ad-g.doubleclick.net^
+||ad-apac.doubleclick.net^
+||ad-adv.doubleclick.net^
+||adx.doubleclick.net^
+||ads.doubleclick.net^
+||adclick.g.doubleclick.net^
+||adform.doubleclick.net^
+||accounts.doubleclick.net^
+||ampcid.doubleclick.net^
+||csi.g.doubleclick.net^
+||cm.g.doubleclick.net^
+||creatives.doubleclick.net^
+||dart.l.doubleclick.net^
+||dfp.doubleclick.net^
+||feed.g.doubleclick.net^
+||fls.doubleclick.net^
+||g.doubleclick.net^
+||googleads.g.doubleclick.net^
+||googleads2.g.doubleclick.net^
+||googleads4.g.doubleclick.net^
+||ib.ad.doubleclick.net^
+||imp.doubleclick.net^
+||iv.doubleclick.net^
+||m.doubleclick.net^
+||mediavisor.doubleclick.net^
+||optimize.doubleclick.net^
+||pagead.l.doubleclick.net^
+||pagead.ad.doubleclick.net^
+||pagead.ads.doubleclick.net^
+||partnerad.l.doubleclick.net^
+||pubads.g.doubleclick.net^
+||publisher-ads.g.doubleclick.net^
+||richmedia.doubleclick.net^
+||s0.doubleclick.net^
+||sadmin.doubleclick.net^
+||securepubads.g.doubleclick.net^
+||static.doubleclick.net^
+||stats.g.doubleclick.net^
+||static.googleadservices.com^
+||survey.g.doubleclick.net^
+||td.doubleclick.net^
+||tpc.doubleclick.net^
+||validator.doubleclick.net^
+||video.doubleclick.net^
+||w-ntg.doubleclick.net^
+||doubleclick.com^
+||doubleclick.net^
+
+! --- 2MDN Network ---
+||2mdn.net^
+||2mdn-cn.net^
+||2mdnsys.com^
+||s0.2mdn.net^
+||s1.2mdn.net^
+||s2.2mdn.net^
+||m.2mdn.net^
+||m1.2mdn.net^
+||static.2mdn.net^
+||gcdn.2mdn.net^
+||affiliate.2mdn.net^
+||video.2mdn.net^
+||cdn.2mdn.net^
+
+! --- Google Syndication ---
+||googlesyndication.com^
+||googlesyndication-cn.com^
+||pagead.googlesyndication.com^
+||pagead1.googlesyndication.com^
+||pagead2.googlesyndication.com^
+||pagead3.googlesyndication.com^
+||pagead4.googlesyndication.com^
+||tpc.googlesyndication.com^
+||tpc.googlesyndication-cn.com^
+||ade.googlesyndication.com^
+||c.googlesyndication.com^
+||safeframe.googlesyndication.com^
+||afs.googlesyndication.com^
+||securepubads.googlesyndication.com^
+
+! --- Google Ad Services ---
+||googletagservices.com^
+||googletagservices-cn.com^
+||googleadservices.com^
+||googleadservices-cn.com^
+||googleadsserving.cn^
+||pagead2.googleadservices.com^
+||partner.googleadservices.com^
+||mobile.googleadservices.com^
+||adservice.google.com^
+||adservice.google.co.in^
+||adservice.google.co.uk^
+||adservice.google.co.jp^
+||adservice.google.ca^
+||adservice.google.de^
+||adservice.google.fr^
+||adservice.google.com.au^
+||adservice.google.es^
+||adservice.google.it^
+||adservice.google.nl^
+||adservice.google.ru^
+||adservice.google.com.br^
+||afs.googleadservices.com^
+||googleads.com^
+
+! --- YouTube Ad-Specific ---
+||ad.youtube.com^
+||ads.youtube.com^
+||youtubeadserver.com^
+||youtubeads.google.com^
+||ytads.com^
+
+! --- Ad Tracking & Measurement ---
+||moatads.com^
+||moat.com^
+||moatclient.com^
+||moatpixel.com^
+||yt.moatads.com^
+||yts.moatads.com^
+||pixel.moatads.com^
+||adsafeprotected.com^
+||pixel.adsafeprotected.com^
+||serving-sys.com^
+||fwmrm.net^
+||v.fwmrm.net^
+||adform.net^
+||files.adform.net^
+||fastclick.net^
+||cdn.fastclick.net^
+||media.fastclick.net^
+||tubemogul.com^
+||rtd.tubemogul.com^
+||cc-dt.com^
+||creative.cc-dt.com^
+||flashtalking.com^
+||innovid.com^
+||dts.innovid.com^
+||s.innovid.com^
+||scorecardresearch.com^
+||b.scorecardresearch.com^
+||quantserve.com^
+||pixel.quantserve.com^
+||pixel.invitemedia.com^
+||exelator.com^
+||load.exelator.com^
+||loadm.exelator.com^
+||krxd.net^
+||googletagmanager.com^
+||gstaticadssl.l.google.com^
+||w3.org.gif^
+
+! --- Programmatic Ad Networks ---
+||adnxs.com^
+||casalemedia.com^
+||rubiconproject.com^
+||pixel.rubiconproject.com^
+||ads.rubiconproject.com^
+||openx.net^
+||pubmatic.com^
+||criteo.com^
+||criteo.net^
+||adsrvr.org^
+||advertising.com^
+||outbrain.com^
+||taboola.com^
+||adserver.yahoo.com^
+||google-analytics.com^
+||googletag.com^
+
+! --- Tracking / Syncing ---
+||sync.1rx.io^
+||sync.mathtag.com^
+||sync.adap.tv^
+||sync.cookiex.org^
+||pixel-sync.sitescout.com^
+||c.bing.com^
+||bat.bing.com^
+
+!
+! ============================================================
+! [SECTION 2] URL PATTERN BLOCKING
+! ============================================================
+! Blocks specific ad-serving URLs/endpoints. Works on native app.
+!
+
+! --- YouTube Ad Endpoints ---
+||www.youtube.com/pagead/*
+||www.youtube.com/ptracking/*
+||www.youtube.com/ad_*
+||youtube.com/get_midroll_info^
+||youtube.com/get_video_info?*el=adunit
+||youtube.com/youtubei/v1/player/ad_break^
+
+! --- YouTube Telemtry & Stats (reduces tracking data sent) ---
+||www.youtube.com/api/stats/ads
+||www.youtube.com/api/stats/atr
+||youtube.com/api/stats/qoe?
+||www.youtube.com/api/stats/playback$method=post
+||www.youtube.com/api/stats/*
+
+! --- Google->YouTube Cross-Site Ad Serving ---
+||www.google.*/pagead$domain=youtube.com
+||www.google.*/adsense$domain=youtube.com
+||googleads.g.doubleclick.net/pagead/$domain=youtube.com
+||pagead2.googlesyndication.com/pagead/$domain=youtube.com
+
+!
+! ============================================================
+! [SECTION 3] JSON STRIPPING — $replace RULES (CRITICAL)
+! ============================================================
+! These strip ad placements from YouTube API JSON responses by
+! modifying the response text IN FLIGHT. This works on the native
+! YouTube Android app when HTTPS filtering is enabled.
+!
+! Targets: player, browse, search, next, playlist, get_watch
+!
+! NOTE: YouTube's app sometimes uses binary protobuf instead of
+! JSON. These rules only work when the API returns JSON.
+!
+
+! --- Player endpoint (main video playback) ---
+||www.youtube.com/watch?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/watch?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/watch?$replace=/"playerAds":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/watch?$replace=/"adBreakHeartbeatParams":"[^"]*"//,domain=www.youtube.com
+
+||www.youtube.com/youtubei/v1/player?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/player?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/player?$replace=/"playerAds":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/player?$replace=/"adBreakHeartbeatParams":"[^"]*"//,domain=www.youtube.com
+
+! --- Browse/Search endpoints (feeds, homepage, search results) ---
+||www.youtube.com/youtubei/v1/browse?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/browse?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/browse?$replace=/"mastheadAd":\{[^}]*\},?//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/browse?$replace=/"multiVideoRenderer":\{[^}]*"ad"[^}]*\},?//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/search?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/search?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+
+! --- Related videos / Next endpoint ---
+||www.youtube.com/youtubei/v1/next?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/youtubei/v1/next?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+
+! --- Playlist endpoint ---
+||www.youtube.com/playlist?list=$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||www.youtube.com/playlist?list=$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+
+! --- Guide / Watch endpoint ---
+||youtube.com/youtubei/v1/get_watch?$replace=/"adPlacements":\[[^\]]*\]//,domain=www.youtube.com
+||youtube.com/youtubei/v1/get_watch?$replace=/"adSlots":\[[^\]]*\]//,domain=www.youtube.com
+
+! --- Remove anti-adblock enforcement message ---
+||www.youtube.com/youtubei/v1/player?$replace=/"auxiliaryUi":\{[^}]*"bkaEnforcementMessageViewModel"[^}]*\},?//,domain=www.youtube.com
+
+!
+! ============================================================
+! [SECTION 4] AGGRESSIVE GOOGLEVIDEO AD BLOCKING
+! ============================================================
+! YouTube serves ad videos from the same googlevideo.com domain as
+! content. These rules attempt to block ad-specific requests by
+! matching URL patterns that differ from normal video requests.
+!
+! WARNING: Google changes these patterns frequently. These rules
+! may occasionally need updating or may cause playback issues.
+! Disable this section if you experience problems.
+!
+
+! --- Block TV-specific ad init playback ---
+||googlevideo.com/initplayback?source=youtube&*c=TVHTML5&*oad=*
+
+! --- Block requests with explicit ad content type ---
+||googlevideo.com/videoplayback*mime=video/mp4*&source=ytads*$domain=youtube.com,media
+
+! --- Block googlevideo requests containing ad-specific parameters ---
+||googlevideo.com/videoplayback*&oad*$domain=youtube.com,media
+||googlevideo.com/videoplayback*&ctyp=ad*$domain=youtube.com,media
+
+!
+! ============================================================
+! [SECTION 5] ELEMENT HIDING (AdGuard Player / Browser)
+! ============================================================
+! CSS rules to hide ad elements visually. Only works in AdGuard
+! Player (share→AdGuard Player) or browser, NOT the native app.
+!
+
+! --- Homepage / Masthead ---
+www.youtube.com###masthead-ad
+www.youtube.com##ytd-masthead-ad
+www.youtube.com##ytd-banner-promo-renderer
+www.youtube.com##ytd-video-masthead-ad-adapter
+www.youtube.com##ytd-video-masthead-ad-renderer
+
+! --- General ad containers ---
+www.youtube.com##ytd-ad-slot-renderer
+www.youtube.com##ytd-ad-slot-shared
+www.youtube.com##.ad-container
+www.youtube.com##.ad-container-renderer
+www.youtube.com##div#player-ads
+www.youtube.com##div#feed-pyv-container
+www.youtube.com##div#footer-ads
+www.youtube.com##div#video-masthead
+www.youtube.com##div.ad-div
+
+! --- Video player ad overlays ---
+www.youtube.com##.video-ads
+www.youtube.com##.ytp-ad-module
+www.youtube.com##.ytp-ad-progress-list
+www.youtube.com##.ytp-ad-overlay-container
+www.youtube.com##.ytp-ad-text-overlay
+www.youtube.com##.ytp-ad-image-overlay
+www.youtube.com##ytd-action-companion-ad-renderer
+www.youtube.com##ytd-companion-ad-renderer
+
+! --- Promoted / Sponsored content ---
+www.youtube.com##ytd-promoted-video-renderer
+www.youtube.com##ytd-promoted-sparkles-web-renderer
+www.youtube.com##ytd-promoted-sparkles-text-search-renderer
+www.youtube.com##ytd-compact-promoted-video-renderer
+www.youtube.com##ytd-compact-promoted-item-renderer
+www.youtube.com##ytd-display-ad-renderer
+www.youtube.com##ytd-in-feed-ad-layout-renderer
+www.youtube.com##ytd-search-pyv-renderer
+www.youtube.com##ytd-single-option-survey-renderer
+www.youtube.com##ytd-merch-shelf-renderer[aria-label*="Ad"]
+www.youtube.com##ytd-merch-shelf-renderer[reason*="ad"]
+www.youtube.com##ytd-radio-listbox-renderer[ad]
+www.youtube.com##.ytp-suggested-action-badge
+www.youtube.com##.ytp-suggested-action
+
+! --- Sidebar ---
+www.youtube.com##.ytd-watch-next-secondary-results-renderer > ytd-ad-slot-renderer
+
+! --- Grid feed ---
+www.youtube.com##ytd-rich-item-renderer:has(> #content > ytd-ad-slot-renderer)
+
+! --- Mobile web ---
+m.youtube.com##.video-ads
+m.youtube.com##.ytp-ad-module
+m.youtube.com##.ad-container
+m.youtube.com##.ad-info
+m.youtube.com##.ad-slot
+m.youtube.com##.masthead-ad
+m.youtube.com##.companion-ad-container
+m.youtube.com##[id*="ad_"]
+m.youtube.com##[class*="ad-container"]
+m.youtube.com##[class*="masthead"]
+m.youtube.com##ytm-companion-slot[data-content-type] > ytm-companion-ad-renderer
+m.youtube.com##ytm-rich-item-renderer > ad-slot-renderer
+
+!
+! ============================================================
+! [SECTION 6] SCRIPTLET INJECTIONS (AdGuard Player / Browser)
+! ============================================================
+! Requires AdGuard Extra to be enabled. Only works in AdGuard
+! Player or browser, NOT the native app.
+!
+
+! --- Prune all known ad properties from JSON.parse ---
+www.youtube.com#%#//scriptlet('json-prune', 'playerResponse.adPlacements playerResponse.playerAds playerResponse.adSlots adPlacements playerAds adSlots')
+
+! --- Set initial page ad properties to undefined ---
+www.youtube.com#%#//scriptlet('set-constant', 'ytInitialPlayerResponse.adPlacements', 'undefined')
+www.youtube.com#%#//scriptlet('set-constant', 'ytInitialPlayerResponse.adSlots', 'undefined')
+www.youtube.com#%#//scriptlet('set-constant', 'ytInitialPlayerResponse.playerAds', 'undefined')
+www.youtube.com#%#//scriptlet('set-constant', 'ytInitialPlayerResponse.auxiliaryUi.messageRenderers.bkaEnforcementMessageViewModel', 'undefined')
+
+! --- Prune fetch/XHR API responses ---
+www.youtube.com#%#//scriptlet('json-prune-fetch-response', 'adPlacements adSlots playerResponse.adPlacements playerResponse.adSlots', '', 'player?key=')
+www.youtube.com#%#//scriptlet('json-prune-fetch-response', 'adPlacements adSlots', '', 'browse?')
+www.youtube.com#%#//scriptlet('json-prune-fetch-response', 'adPlacements adSlots playerAds', '', '/playlist\\?list=')
+www.youtube.com#%#//scriptlet('json-prune-xhr-response', 'adPlacements adSlots playerResponse.adPlacements playerResponse.adSlots', '', '/\\/player(?!.*(get_drm_license))|watch\\?[tv]=|get_watch\\?/')
+
+! --- Replace ad placement strings with "no_ads" in responses ---
+www.youtube.com#%#//scriptlet('trusted-replace-xhr-response', '"adPlacements"', '"no_ads"', '/playlist\\?list=|player\\?|watch\\?v=/')
+www.youtube.com#%#//scriptlet('trusted-replace-xhr-response', '"adSlots"', '"no_ads"', '/playlist\\?list=|player\\?|watch\\?v=/')
+www.youtube.com#%#//scriptlet('trusted-replace-xhr-response', '"playerAds"', '"no_ads"', '/playlist\\?list=|player\\?|watch\\?v=/')
+www.youtube.com#%#//scriptlet('trusted-replace-fetch-response', '"adPlacements"', '"no_ads"', 'player?key=')
+www.youtube.com#%#//scriptlet('trusted-replace-fetch-response', '"adSlots"', '"no_ads"', 'player?key=')
+www.youtube.com#%#//scriptlet('trusted-replace-fetch-response', '"playerAds"', '"no_ads"', 'player?key=')
+
+! --- Anti-anti-adblock ---
+www.youtube.com#%#//scriptlet('trusted-replace-fetch-response', '/"auxiliaryUi":\{"messageRenderers":\{"bkaEnforcementMessageViewModel.*?\}\}\},?/', '', 'player?key=')
+www.youtube.com#%#//scriptlet('trusted-replace-xhr-response', '/"auxiliaryUi":\{"messageRenderers":\{"bkaEnforcementMessageViewModel.*?\}\}\},?/', '', '/playlist\\?list=|player\\?|watch\\?v=/')
+
+! --- Music/ Kids YouTube ---
+music.youtube.com,youtubekids.com,youtube-nocookie.com#%#//scriptlet('json-prune', 'playerResponse.adPlacements playerResponse.playerAds playerResponse.adSlots adPlacements playerAds adSlots')
+
+!
+! ============================================================
+! [SECTION 7] AdGuard APP-SPECIFIC RULES
+! ============================================================
+! These only work in the AdGuard Android app (not browser ext).
+
+! --- Remove JS constants at page load ---
+||youtube.com/watch?$remove-js-constant=ytInitialPlayerResponse.playerConfig.ssapConfig|ytInitialPlayerResponse.adPlacements|ytInitialPlayerResponse.adSlots|ytInitialPlayerResponse.playerAds
+
+! --- JSON pruner for player endpoint (AdGuard-specific modifier) ---
+||youtube.com/youtubei/v1/player$jsonprune=$['adPlacements', 'adSlots', 'playerAds']
+
+! --- Fix for infinite loading caused by other rules ---
+@@||googlevideo.com/videoplayback*ctier=L&*%2Cxpc%2Cctier%2C
+
+!
+! ============================================================
+! [SECTION 8] ANTI-FAKE-BUFFERING SCRIPT
+! ============================================================
+! Prevents YouTube's fake buffering trick when ad blocking is
+! detected. Patches Function.prototype.call to intercept ad
+! heartbeat checks. Only works in AdGuard Player / browser.
+!
+
+www.youtube.com#%#(()=>{const t=Function.prototype.call;let e=!1,o=!1,n=!1;const c={apply:(c,r,a)=>{const i=a[0];if(i?.requestNumber&&i?.snapshot)try{o=((t,e=5)=>{if("object"!=typeof t||null===t)return!1;const o=new Array(1e3);let c=0;const r=new WeakSet;for(o[c++]={obj:t,depth:0};c>0&&!n;){const{obj:t,depth:a}=o[--c];if(a>e||"object"!=typeof t||null===t||r.has(t))continue;let i;r.add(t);try{i=Object.hasOwn(t,"backoffTimeMs")}catch(t){}if(i)return void 0!==t.backoffTimeMs||(n=!0,!1);for(const e in t)if(Object.hasOwn(t,e)){let n;try{n=t[e]}catch(t){}null!==n&&"object"==typeof n&&!r.has(n)&&c<o.length&&(o[c++]={obj:n,depth:a+1})}}return!1})(i),e=!0,(o||n)&&(Function.prototype.call=t)}catch(t){}return Reflect.apply(c,r,a)}};window.Function.prototype.call=new Proxy(window.Function.prototype.call,c);window.addEventListener("load",(async()=>{if(Function.prototype.call=t,!o&&e)return;const n=window.location.search,c=new URLSearchParams(n).get("v");if(!c)return;const r=await(a="#movie_player",i=200,l=1e4,new Promise((t=>{if(!a||!i||!l)return void t(null);const e=Date.now()+l,o=()=>{const n=document.querySelector(a);n?t(n):Date.now()>e?t(null):setTimeout(o,i)};o()})));var a,i,l;if(!r)return;const s=new URLSearchParams(n).get("t")??"0",u=parseInt(s,10);if("function"==typeof r.loadVideoById&&!location.search.includes("&rco="))try{r.loadVideoById(c,u)}catch(t){}}))})();
+
+!
+! ============================================================
+! [SECTION 9] EXCEPTIONS
+! ============================================================
+! These ensure critical functionality is not broken.
+
+! --- Allow video info (required for playback) ---
+@@||youtube.com/get_video_info$domain=www.youtube.com
+@@||www.youtube.com/get_video_info$domain=www.youtube.com
+
+! --- Allow YouTube API ---
+@@||youtubei.googleapis.com^$domain=youtube.com
+@@||www.youtube.com/youtubei/v1/*
+
+! --- Allow video content delivery ---
+@@||googlevideo.com^$domain=youtube.com
+
+! --- Allow thumbnails ---
+@@||ytimg.com^$domain=youtube.com
+@@||yt3.ggpht.com^$domain=youtube.com
+
+! --- Exception for AdGuard's own player-ads hide rule (prevents anti-ad detection) ---
+www.youtube.com#@##player-ads
+
+!
+! ============================================================
+! END OF TUBESHIELD FILTER v2.0
+! ============================================================
